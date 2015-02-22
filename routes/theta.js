@@ -3,6 +3,24 @@ var router = express.Router();
 var Theta = require('ricoh-theta');
 var fs = require('fs');
 
+var cronJob = require('cron').CronJob;
+ 
+// 毎秒実行
+var cronTime = "*/30 * * * * *";
+ 
+// 一度だけ実行したい場合、Dateオブジェクトで指定も可能
+// var cronTime = new Date();
+ 
+var job = new cronJob({
+  //実行したい日時 or crontab書式
+  cronTime: cronTime
+ 
+  //指定時に実行したい関数
+  , onTick: function() {
+    console.log('onTick!');
+ 
+//ジョブ開始
+
 try{
 var theta = new Theta();
 
@@ -26,19 +44,28 @@ theta.on('objectAdded', function(object_id){
   });
 });
 
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Theta' });
-});
-
 }catch( e ){
   console.log( e );
 
-app.use(function(req, res, next) {
-    var err = new Error('Theta Socket Error');
-    err.status = 1000;
-    next(e);
-});
-
 }
+
+
+  }
+ 
+  //ジョブの完了または停止時に実行する関数 
+  , onComplete: function() {
+    console.log('onComplete!')
+  }
+ 
+  // コンストラクタを終する前にジョブを開始するかどうか
+  , start: false
+   
+  //タイムゾーン
+  , timeZone: "Japan/Tokyo"
+})
+
+job.start();
+
+//}
 
 module.exports = router;
