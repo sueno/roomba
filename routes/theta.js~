@@ -1,0 +1,44 @@
+var express = require('express');
+var router = express.Router();
+var Theta = require('ricoh-theta');
+var fs = require('fs');
+
+try{
+var theta = new Theta();
+
+theta.connect('192.168.1.1');
+
+// capture
+theta.on('connect', function(){
+  theta.capture(function(err){
+    if(err) return console.error(err);
+    console.log('capture success');
+  });
+});
+
+// get picture
+theta.on('objectAdded', function(object_id){
+  theta.getPicture(object_id, function(err, picture){
+    fs.writeFile('public/theta/current.jpg', picture, function(err){
+      console.log('picture saved => .jpg');
+      theta.disconnect();
+    });
+  });
+});
+
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Theta' });
+});
+
+}catch( e ){
+  console.log( e );
+
+app.use(function(req, res, next) {
+    var err = new Error('Theta Socket Error');
+    err.status = 1000;
+    next(e);
+});
+
+}
+
+module.exports = router;

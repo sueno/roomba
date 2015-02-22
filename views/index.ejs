@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript" src="/javascripts/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="/javascripts/modernizr-2.7.1-csstransforms3d-canvas-touch.js"></script>
+  <script type="text/javascript" src="/javascripts/megapix-image.js"></script>
+  <script type="text/javascript" src="/javascripts/three.min.js"></script>
+  <script type="text/javascript" src="/javascripts/Detector.js"></script>
+  <script type="text/javascript" src="/javascripts/CSS3DRenderer.js"></script>
+  <script type="text/javascript" src="/javascripts/theta-viewer.js"></script>
+  <link rel="stylesheet" href="/stylesheets/theta_styles.css">
+    <title><%= title %></title>
+  </head>
+<body>
+<!--
+<p id="msg">DebugMessage</p>
+<!-- -->
+<div id="theta-viewer" class="theta_cardboad_viewer" style="float:left;"></div>
+  <script type="text/javascript">
+(function ($) {
+    'use strict';
+    $("#theta-viewer").createThetaViewer("/images/theta/current.jpg");
+}(jQuery));
+  </script>
+</body>
+</html>
